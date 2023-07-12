@@ -1,0 +1,71 @@
+{
+  "name": "lusat",
+  "version": "0.0.23",
+  "description": "The Lusat TS library",
+  "homepage": "https://rysana.com/lusat",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lusatai/lusat"
+  },
+  "license": "MIT",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "module": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./server": {
+      "types": "./server/dist/index.d.ts",
+      "import": "./server/dist/index.mjs",
+      "module": "./server/dist/index.mjs",
+      "require": "./server/dist/index.js"
+    },
+    "./ui/react": {
+      "types": "./ui/react/dist/index.d.ts",
+      "import": "./ui/react/dist/index.mjs",
+      "module": "./ui/react/dist/index.mjs",
+      "require": "./ui/react/dist/index.js"
+    },
+    "./adapters/openai": {
+      "types": "./adapters/openai/dist/index.d.ts",
+      "import": "./adapters/openai/dist/index.mjs",
+      "module": "./adapters/openai/dist/index.mjs",
+      "require": "./adapters/openai/dist/index.js"
+    }
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist/**/*",
+    "server/dist/**/*",
+    "ui/react/dist/**/*",
+    "adapters/openai/dist/**/*",
+    "README.md",
+    "package.json"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "clean": "rm -rf dist && rm -rf server/dist && rm -rf ui/react/dist && rm -rf adapters/openai/dist",
+    "dev": "tsup --watch"
+  },
+  "dependencies": {
+    "zod": "^3.21.4",
+    "zod-to-json-schema": "^3.21.3"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.14",
+    "tsup": "^7.1.0",
+    "typescript": "^4.9.5"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    }
+  }
+}
