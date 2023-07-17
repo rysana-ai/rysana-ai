@@ -334,23 +334,16 @@ export function isNullaryAction(
   )
 }
 
-// -----------------------------------
-
-// import { z } from 'zod'
-
-// const actions = {
-//   test1: action()
-//     .output(z.number())
-//     .handle(() => 'test1'), // should err
-//   test2: action()
-//     .input(z.string())
-//     .output(z.string())
-//     .handle((input) => input), // shouldnt err
-// }
-
-// actions.test1.call() // shouldnt err
-// actions.test2.call('test2') //shouldnt err
-
-// actions.test1.call('test1') // should err
-// actions.test2.call(1) // should err
-// actions.test2.call() // should err
+/**
+ * Util to type-check a set of actions.
+ *
+ * ```ts
+ * actions({
+ *  createTodo: action()
+ *    .input(z.string())
+ *    .handle((input) => {/*...*\/}),
+ * ```
+ */
+export function actions<T extends Actions>(def: T) {
+  return def
+}

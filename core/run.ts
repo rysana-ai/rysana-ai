@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { Actions, AnyAction } from '~/core/action'
-import type { App, Workflow } from '~/core/app'
+import type { App } from '~/core/app'
+import type { Workflow } from '~/core/workflow'
 
-export async function runWorkflow<
+export async function run<
   TActions extends Actions,
   TApp extends App<TActions, any, any>,
   TWorkflow extends Workflow<TActions>,
