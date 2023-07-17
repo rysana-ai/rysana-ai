@@ -1,5 +1,5 @@
 import type { Actions } from '~/core/action'
-import type { Workflow } from '~/core/app'
+import type { Workflow } from '~/core/workflow'
 import { zodToJsonSchema } from 'zod-to-json-schema'
 
 /**
