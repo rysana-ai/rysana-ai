@@ -11,7 +11,7 @@ npm i lusat
   <p align="center">
     <a href="https://rysana.com/log">Log</a>
     ·
-    <a href="https://rysana.com/lusat">Website</a>
+    <a href="https://rysana.com/docs/lusat">Website</a>
     ·
     <a href="https://rysana.com/docs/lusat">Docs</a>
     ·
