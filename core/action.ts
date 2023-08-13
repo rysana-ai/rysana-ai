@@ -30,53 +30,73 @@ type ActionBase<TOut, TMeta> = {
    * This is optional and not explicitly recommended, but can be used to
    * enhance AI reasoning.
    */
-  _outputParser?: Parser<TOut>
+  outputParser?: Parser<TOut>
 }
 
 type NullaryAction<TOut, TMeta> = ActionBase<TOut, TMeta> & {
   /** Used to differentiate between nullary and unary actions. */
-  _args: 'nullary'
+  arity: 'nullary'
   /**
    * The middleware functions to run before the action is executed.
    * These can be used to perform any kind of pre-processing, such as
    * logging, analytics, etc.
    */
-  _middlewares?: (() => MaybePromise<void>)[]
+  middlewares?: (() => MaybePromise<void>)[]
   /**
    * The handler function to run when the action is executed. This is
    * the main function of the action, and should be where the bulk of
    * the logic is implemented, other than the output parser.
+   *
+   * As a general rule, you should not call this function directly from
+   * your `Action`, but instead use the `call` method, as this will not
+   * run any middlewares nor the output parser.
    */
-  _handler: () => MaybePromise<TOut>
-  /** Execute the action with the given input. May throw an error. */
+  internalHandler: () => MaybePromise<TOut>
+  /**
+   * Execute the action.
+   *
+   * This is the method you should use to trigger your `Action`, as it
+   * runs the output parser as well as middlewares. It is also what the
+   * workflow runner will call. May throw an error.
+   */
   call: () => MaybePromise<TOut>
 }
 
 type UnaryAction<TIn, TOut, TMeta> = ActionBase<TOut, TMeta> & {
   /** Used to differentiate between nullary and unary actions. */
-  _args: 'unary'
+  arity: 'unary'
   /**
    * The middleware functions to run before the action is executed.
    * These can be used to perform any kind of pre-processing, such as
    * logging, analytics, etc.
    */
-  _middlewares?: ((input: TIn) => MaybePromise<TIn>)[]
+  middlewares?: ((input: TIn) => MaybePromise<TIn>)[]
   /**
    * The input parser function to run before the action is executed.
    * This is used to protect the action from invalid input, and to
    * provide a consistent input type to the action handler.
    */
-  _inputParser: Parser<TIn>
+  inputParser: Parser<TIn>
   /**
    * The handler function to run when the action is executed. This is
    * the main function of the action, and should be where the bulk of
    * the logic is implemented, other than the input/output parsers.
    *
    * It is safe to assume that the input has been parsed and is valid
-   * when this function is called.
+   * when this function is called from the `call` method.
+   *
+   * As a general rule, you should not call this function directly from
+   * your `Action`, but instead use the `call` method, as this will not
+   * run any middlewares nor the input and output parsers.
    */
-  _handler: (input: TIn) => MaybePromise<TOut>
-  /** Execute the action with the given input. May throw an error. */
+  internalHandler: (input: TIn) => MaybePromise<TOut>
+  /**
+   * Execute the action with the given input.
+   *
+   * This is the method you should use to trigger your `Action`, as it
+   * runs the input and output parsers as well as middlewares. It is
+   * also what the workflow runner will call. May throw an error.
+   */
   call: (input: TIn) => MaybePromise<TOut>
 }
 
@@ -100,12 +120,11 @@ export type Action<TIn, TOut, TMeta> =
   | NullaryAction<TOut, TMeta>
   | UnaryAction<TIn, TOut, TMeta>
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type AnyAction = Action<any, any, any>
 
 export type Actions = Record<string, AnyAction>
 
-type Unhandled<T> = Omit<T, '_handler' | 'call'>
+type Unhandled<T> = Omit<T, 'call' | 'internalHandler'>
 
 type NullaryActionBuilder<TOut, TMeta> = {
   /** The raw action definition. Do not use directly. */
@@ -173,50 +192,43 @@ type UnaryActionBuilder<TIn, TOut, TMeta> = {
 
 function createNullaryAction<TOut, TMeta>(
   def: NullaryActionBuilder<TOut, TMeta>['def'],
-  handler: NullaryAction<TOut, TMeta>['_handler'],
+  handler: NullaryAction<TOut, TMeta>['internalHandler'],
 ): NullaryAction<TOut, TMeta> {
   return {
     ...def,
-    _handler: handler,
+    internalHandler: handler,
     call: async () => {
       // Run the middleware functions.
-      for (const middleware of def._middlewares ?? []) {
+      for (const middleware of def.middlewares ?? []) {
         await middleware()
       }
-
       // Run the handler function.
       const output = await handler()
-      return def._outputParser
-        ? def._outputParser.parse(output)
-        : output
+      return def.outputParser ? def.outputParser.parse(output) : output
     },
   }
 }
 
 function createUnaryAction<TIn, TOut, TMeta>(
   def: UnaryActionBuilder<TIn, TOut, TMeta>['def'],
-  handler: UnaryAction<TIn, TOut, TMeta>['_handler'],
+  handler: UnaryAction<TIn, TOut, TMeta>['internalHandler'],
 ): UnaryAction<TIn, TOut, TMeta> {
   return {
     ...def,
-    _handler: handler,
+    internalHandler: handler,
     call: async (input) => {
       // Parse the input if there is an input parser.
       // This should throw an error if the input is invalid,
       // allowing the action to be called safely with unknown input.
-      const parsedInput = def._inputParser.parse(input)
-
+      const parsedInput = def.inputParser.parse(input)
       // Run the middleware functions on the parsed input.
       let processedInput = parsedInput
-      for (const middleware of def._middlewares ?? []) {
+      for (const middleware of def.middlewares ?? []) {
         processedInput = await middleware(processedInput)
       }
-
       // Run the handler function on the processed input.
       const output = await handler(processedInput)
-      return def._outputParser
-        ? def._outputParser.parse(output)
-        : output
+      return def.outputParser ? def.outputParser.parse(output) : output
     },
   }
 }
@@ -226,7 +238,6 @@ function createUnaryBuilder<TIn, TOut, TMeta>(
 ): UnaryActionBuilder<TIn, TOut, TMeta> {
   return {
     def,
-
     describe(description) {
       return createUnaryBuilder({
         ...def,
@@ -242,13 +253,13 @@ function createUnaryBuilder<TIn, TOut, TMeta>(
     middleware(fun) {
       return createUnaryBuilder({
         ...def,
-        _middlewares: [...(def._middlewares ?? []), fun],
+        middlewares: [...(def.middlewares ?? []), fun],
       })
     },
     output(outputParser) {
       return createUnaryBuilder({
         ...def,
-        _outputParser: outputParser,
+        outputParser: outputParser,
       })
     },
     handle(fun) {
@@ -262,7 +273,6 @@ function createNullaryBuilder<TOut, TMeta>(
 ): NullaryActionBuilder<TOut, TMeta> {
   return {
     def,
-
     describe(description) {
       return createNullaryBuilder({
         ...def,
@@ -278,21 +288,21 @@ function createNullaryBuilder<TOut, TMeta>(
     middleware(fun) {
       return createNullaryBuilder({
         ...def,
-        _middlewares: [...(def._middlewares ?? []), fun],
+        middlewares: [...(def.middlewares ?? []), fun],
       })
     },
     input<TNewInput>(inputParser: Parser<TNewInput>) {
       return createUnaryBuilder<TNewInput, TOut, TMeta>({
         ...def,
-        _args: 'unary',
-        _inputParser: inputParser,
-        _middlewares: [],
+        arity: 'unary',
+        inputParser: inputParser,
+        middlewares: [],
       })
     },
     output(outputParser) {
       return createNullaryBuilder({
         ...def,
-        _outputParser: outputParser,
+        outputParser: outputParser,
       })
     },
     handle(fun) {
@@ -317,7 +327,7 @@ function createNullaryBuilder<TOut, TMeta>(
  */
 export function action(name?: string) {
   return createNullaryBuilder({
-    _args: 'nullary',
+    arity: 'nullary',
     name,
   })
 }
@@ -329,8 +339,8 @@ export function isNullaryAction(
   return (
     typeof x === 'object' &&
     x !== null &&
-    '_args' in x &&
-    (x as AnyAction)._args === 'nullary'
+    'arity' in x &&
+    (x as AnyAction).arity === 'nullary'
   )
 }
 

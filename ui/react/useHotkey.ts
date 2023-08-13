@@ -60,7 +60,6 @@ export function useHotkey(
   const callback: Handler =
     typeof action === 'object' ? action.call : action
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const memoisedCB = useCallback(callback, _deps)
 
   useEffect(() => {

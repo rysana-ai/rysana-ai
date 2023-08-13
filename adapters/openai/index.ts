@@ -63,9 +63,9 @@ export function gptFunctions(
     name: action.name ?? name,
     description: action.description,
     parameters:
-      action._args === 'unary'
+      action.arity === 'unary'
         ? Object.fromEntries(
-            Object.entries(zodToJsonSchema(action._inputParser)).filter(
+            Object.entries(zodToJsonSchema(action.inputParser)).filter(
               ([k]) => k !== '$schema',
             ),
           )
@@ -132,8 +132,8 @@ export function gptFunctionCallToWorkflow<TActions extends Actions>(
   }
 
   let input
-  if (action._args === 'unary') {
-    input = action._inputParser.parse(
+  if (action.arity === 'unary') {
+    input = action.inputParser.parse(
       JSON.parse(gptFunctionCall.arguments ?? '{}'),
     )
   }
@@ -175,7 +175,7 @@ export async function callFunction<TActions extends Actions>(
     throw new Error(`Unknown function "${gptFunctionCall.name}".`)
   }
 
-  const result = await (action._args === 'unary'
+  const result = await (action.arity === 'unary'
     ? action.call(JSON.parse(gptFunctionCall.arguments ?? '{}'))
     : action.call())
 

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { Actions, AnyAction } from '~/core/action'
 import type { App } from '~/core/app'
 import type { Workflow } from '~/core/workflow'

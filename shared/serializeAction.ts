@@ -16,11 +16,11 @@ export function serializeAction<TInput, TOutput, TMetadata>(
     name: action.name ?? name,
     description: action.description,
     input:
-      action._args === 'unary'
-        ? zodToObject(action._inputParser)
+      action.arity === 'unary'
+        ? zodToObject(action.inputParser)
         : undefined,
-    output: action._outputParser
-      ? zodToObject(action._outputParser)
+    output: action.outputParser
+      ? zodToObject(action.outputParser)
       : undefined,
   })
 }
