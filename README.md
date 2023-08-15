@@ -28,6 +28,8 @@ For details on how to build with Lusat, see the [Lusat documentation](https://ry
 
 ## Installation
 
+You can install `lusat` with `npm`, `pnpm`, or `yarn`, and you can build it from source with the `build` script.
+
 <table>
 <tr>
 <th width="292px"><code>npm</code></th>
