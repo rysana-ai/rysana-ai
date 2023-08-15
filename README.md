@@ -6,37 +6,60 @@ AI Superpowers for your apps. Install:
 npm i lusat
 ```
 
+**Lusat** is [Rysana's](https://rysana.com) open source tookit for building powerful, secure, and intuitive AI-augmented natural language applications for the web. This is the TypeScript/JavaScript version of the Lusat toolkit.
+
 <p align="center">
   <hr />
   <p align="center">
     <a href="https://rysana.com/log">Log</a>
-    ·
+    --
     <a href="https://rysana.com/docs/lusat">Website</a>
-    ·
+    --
     <a href="https://rysana.com/docs/lusat">Docs</a>
-    ·
+    --
     <a href="https://rysana.com">Rysana</a>
   </p>
   <hr />
 </p>
 
-## Usage
+## Documentation
 
-**Lusat** is [Rysana's](https://rysana.com) open source tookit for building powerful, secure, and intuitive AI-augmented natural language applications for the web. This is the TypeScript/JavaScript version of the Lusat toolkit.
+For details on how to build with Lusat, see the [Lusat documentation](https://rysana.com/docs/lusat).
 
-You can install Lusat with `npm`, `pnpm`, or `yarn`:
+## Installation
+
+<table>
+<tr>
+<th width="292px"><code>npm</code></th>
+<th width="292px"><code>pnpm</code></th>
+<th width="292px"><code>yarn</code></th>
+</tr>
+<tr>
+<td>
 
 ```bash
 npm i lusat
 ```
 
+</td>
+<td>
+
 ```bash
 pnpm i lusat
 ```
 
+</td>
+<td>
+
 ```bash
 yarn add lusat
 ```
+
+</td>
+</tr>
+</table>
+
+## API Platform
 
 If you want to use the [Rysana AI](https://rysana.com/ai) platform, you will need to create an account and create a project. You will need the your API key to use the Rysana AI platform.
 
@@ -44,10 +67,6 @@ If you want to use the [Rysana AI](https://rysana.com/ai) platform, you will nee
 # .env
 RYSANA_API_KEY=your-api-key
 ```
-
-## Documentation
-
-For details on how to build with Lusat, see the [Lusat documentation](https://rysana.com/docs/lusat).
 
 ## Imports
 
