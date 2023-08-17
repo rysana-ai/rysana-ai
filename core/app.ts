@@ -3,11 +3,7 @@ import type { Examples } from '~/core/example'
 import type { Models } from '~/core/model'
 
 /** A Lusat app. */
-export type App<
-  TActions extends Actions,
-  TModels extends Models,
-  TMeta,
-> = {
+export type App<TActions extends Actions, TModels extends Models, TMeta> = {
   description?: string
   metadata?: TMeta
   actions?: TActions
@@ -33,8 +29,5 @@ export function app<
   TMeta,
   TApp extends App<TActions, TModels, TMeta>,
 >(def: TApp) {
-  return {
-    handleError: console.error,
-    ...def,
-  }
+  return { handleError: console.error, ...def }
 }

@@ -2,6 +2,7 @@ import type { Actions, AnyAction } from '~/core/action'
 import type { App } from '~/core/app'
 import type { Workflow } from '~/core/workflow'
 
+/** Run a `Workflow` against an `App`. */
 export async function run<
   TActions extends Actions,
   TApp extends App<TActions, any, any>,

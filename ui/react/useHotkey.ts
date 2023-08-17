@@ -15,10 +15,9 @@ type OptionsOrDependencyList = DependencyList | Options
 
 export function useHotkey(
   /**
-   * The hotkey(s) to listen for. This can be a single key, a
-   * combination of keys separated by `+` to be triggered
-   * simultaneously, or even chords separated by `then` to be triggered
-   * in sequence.
+   * The hotkey(s) to listen for. This can be a single key, a combination of
+   * keys separated by `+` to be triggered simultaneously, or even chords
+   * separated by `then` to be triggered in sequence.
    *
    * ```ts
    * 'a', 'cmd+k', 'alt+shift+c', 'g then i'
@@ -26,8 +25,8 @@ export function useHotkey(
    */
   hotkey: string,
   /**
-   * The action to perform when the hotkey is pressed. Can be a nullary
-   * `Action` or any nullary function or `KeyboardEvent` handler.
+   * The action to perform when the hotkey is pressed. Can be a nullary `Action`
+   * or any nullary function or `KeyboardEvent` handler.
    */
   action: HotkeyAction,
   /**
@@ -52,13 +51,8 @@ export function useHotkey(
       ? deps
       : {}) ?? {}
   const _deps: DependencyList =
-    options instanceof Array
-      ? options
-      : deps instanceof Array
-      ? deps
-      : []
-  const callback: Handler =
-    typeof action === 'object' ? action.call : action
+    options instanceof Array ? options : deps instanceof Array ? deps : []
+  const callback: Handler = typeof action === 'object' ? action.call : action
 
   const memoisedCB = useCallback(callback, _deps)
 
