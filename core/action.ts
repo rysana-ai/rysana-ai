@@ -5,7 +5,7 @@ import type { MaybePromise } from '~/shared'
  * A parser function, which can be used to parse input/output data into a
  * consistent type and throw errors if the data is invalid.
  */
-type Parser<TData> = ZodType<TData>
+type Parser<T> = ZodType<T>
 
 type ActionBase<TOut, TMeta> = {
   /**

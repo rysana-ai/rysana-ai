@@ -12,6 +12,8 @@ export type App<TActions extends Actions, TModels extends Models, TMeta> = {
   handleError?: (error: unknown) => void
 }
 
+export type AnyApp = App<Actions, Models, any>
+
 /**
  * Util to type-check a Lusat app.
  *
