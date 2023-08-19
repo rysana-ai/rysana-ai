@@ -14,7 +14,6 @@ import { zodToJsonSchema } from 'zod-to-json-schema'
  *
  * ```ts
  * import { z } from 'zod'
- *
  * import { action } from 'lusat'
  *
  * const functions = gptFunctions({

@@ -1,5 +1,4 @@
 import { DependencyList, useCallback, useEffect } from 'react'
-
 import { getDevicePlatform, parseChords } from '~/shared'
 
 type Handler = (e?: KeyboardEvent) => void

@@ -33,7 +33,7 @@ You can install `lusat` with `npm`, `pnpm`, or `yarn`, and you can build it from
 <table>
 <tr>
 <th width="292px"><code>npm</code></th>
-<th width="292px"><code>pnpm</code></th>
+<th width="293px"><code>pnpm</code></th>
 <th width="292px"><code>yarn</code></th>
 </tr>
 <tr>
