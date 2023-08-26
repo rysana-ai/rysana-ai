@@ -132,9 +132,7 @@ type NullaryActionBuilder<TOut, TMeta> = {
   describe: (description: string) => NullaryActionBuilder<TOut, TMeta>
 
   /** Add metadata to the action. */
-  metadata: <TNewMeta>(
-    metadata: TNewMeta,
-  ) => NullaryActionBuilder<TOut, TNewMeta>
+  metadata: <TNewMeta>(metadata: TNewMeta) => NullaryActionBuilder<TOut, TNewMeta>
 
   /** Add a middleware to the action. */
   middleware: (fun: () => void) => NullaryActionBuilder<TOut, TMeta>
@@ -166,9 +164,7 @@ type UnaryActionBuilder<TIn, TOut, TMeta> = {
   describe: (description: string) => UnaryActionBuilder<TIn, TOut, TMeta>
 
   /** Add metadata to the action. */
-  metadata: <TNewMeta>(
-    metadata: TNewMeta,
-  ) => UnaryActionBuilder<TIn, TOut, TNewMeta>
+  metadata: <TNewMeta>(metadata: TNewMeta) => UnaryActionBuilder<TIn, TOut, TNewMeta>
 
   /** Add a middleware to the action. */
   middleware: (
@@ -181,9 +177,7 @@ type UnaryActionBuilder<TIn, TOut, TMeta> = {
   ) => UnaryActionBuilder<TIn, TNewOutput, TMeta>
 
   /** Add a handler to the action. */
-  handle: (
-    fun: (input: TIn) => MaybePromise<TOut>,
-  ) => UnaryAction<TIn, TOut, TMeta>
+  handle: (fun: (input: TIn) => MaybePromise<TOut>) => UnaryAction<TIn, TOut, TMeta>
 }
 
 function createNullaryAction<TOut, TMeta>(
@@ -308,9 +302,7 @@ export function action(name?: string) {
 }
 
 /** Check if the given value is a nullary action. */
-export function isNullaryAction(
-  x: unknown,
-): x is NullaryAction<unknown, unknown> {
+export function isNullaryAction(x: unknown): x is NullaryAction<unknown, unknown> {
   return (
     typeof x === 'object' &&
     x !== null &&

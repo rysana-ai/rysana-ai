@@ -8,13 +8,8 @@ export function serializeAction(name: string, action: AnyAction) {
   return {
     name: action.name ?? name,
     description: action.description,
-    input:
-      action.arity === 'unary'
-        ? zodToJsonSchema(action.inputParser)
-        : undefined,
-    output: action.outputParser
-      ? zodToJsonSchema(action.outputParser)
-      : undefined,
+    input: action.arity === 'unary' ? zodToJsonSchema(action.inputParser) : undefined,
+    output: action.outputParser ? zodToJsonSchema(action.outputParser) : undefined,
   }
 }
 
@@ -23,16 +18,10 @@ export function serializeApp(app: AnyApp) {
   return {
     description: app.description,
     actions: app.actions
-      ? mapEntries(app.actions, ([name, action]) => [
-          name,
-          serializeAction(name, action),
-        ])
+      ? mapEntries(app.actions, ([name, action]) => [name, serializeAction(name, action)])
       : undefined,
     models: app.models
-      ? mapEntries(app.models, ([name, model]) => [
-          name,
-          zodToJsonSchema(model),
-        ])
+      ? mapEntries(app.models, ([name, model]) => [name, zodToJsonSchema(model)])
       : undefined,
     examples: app.examples,
   }

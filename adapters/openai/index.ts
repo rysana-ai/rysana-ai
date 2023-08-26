@@ -1,7 +1,4 @@
-import type {
-  ChatCompletionMessage,
-  CompletionCreateParams,
-} from 'openai/resources/chat'
+import type { ChatCompletionMessage, CompletionCreateParams } from 'openai/resources/chat'
 import type { Actions } from '~/core/action'
 import type { Workflow } from '~/core/workflow'
 import { zodToJsonSchema } from 'zod-to-json-schema'
@@ -37,9 +34,7 @@ import { zodToJsonSchema } from 'zod-to-json-schema'
  * `lusat/adapters/openai`, using the same `Actions` object and taking advantage
  * of the parsing and validation defined in your input schema.
  */
-export function gptFunctions(
-  actions: Actions,
-): CompletionCreateParams.Function[] {
+export function gptFunctions(actions: Actions): CompletionCreateParams.Function[] {
   return Object.entries(actions).map(([name, action]) => ({
     name: action.name ?? name,
     description: action.description,

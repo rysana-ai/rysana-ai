@@ -44,11 +44,7 @@ export function useHotkey(
   const chords = parseChords(hotkey)
 
   const _options =
-    (!(options instanceof Array)
-      ? options
-      : !(deps instanceof Array)
-      ? deps
-      : {}) ?? {}
+    (!(options instanceof Array) ? options : !(deps instanceof Array) ? deps : {}) ?? {}
   const _deps: DependencyList =
     options instanceof Array ? options : deps instanceof Array ? deps : []
   const callback: Handler = typeof action === 'object' ? action.call : action
@@ -60,9 +56,7 @@ export function useHotkey(
 
     // TODO: Support multiple chords.
     const chord = chords[0] ?? []
-    const primary = chord.find(
-      (key) => !['cmd', 'ctrl', 'alt', 'shift'].includes(key),
-    )
+    const primary = chord.find((key) => !['cmd', 'ctrl', 'alt', 'shift'].includes(key))
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (
@@ -76,11 +70,7 @@ export function useHotkey(
 
       if (
         (chord.includes('shift') ? e.shiftKey : true) &&
-        (chord.includes('cmd')
-          ? platform === 'mac'
-            ? e.metaKey
-            : e.ctrlKey
-          : true) &&
+        (chord.includes('cmd') ? (platform === 'mac' ? e.metaKey : e.ctrlKey) : true) &&
         (chord.includes('alt') ? e.altKey : true) &&
         (chord.includes('ctrl') ? e.ctrlKey : true) &&
         primary &&
