@@ -167,9 +167,7 @@ type UnaryActionBuilder<TIn, TOut, TMeta> = {
   metadata: <TNewMeta>(metadata: TNewMeta) => UnaryActionBuilder<TIn, TOut, TNewMeta>
 
   /** Add a middleware to the action. */
-  middleware: (
-    fun: (input: TIn) => MaybePromise<TIn>,
-  ) => UnaryActionBuilder<TIn, TOut, TMeta>
+  middleware: (fun: (input: TIn) => MaybePromise<TIn>) => UnaryActionBuilder<TIn, TOut, TMeta>
 
   /** Add an output parser to the action. */
   output: <TNewOutput>(
@@ -304,10 +302,7 @@ export function action(name?: string) {
 /** Check if the given value is a nullary action. */
 export function isNullaryAction(x: unknown): x is NullaryAction<unknown, unknown> {
   return (
-    typeof x === 'object' &&
-    x !== null &&
-    'arity' in x &&
-    (x as AnyAction).arity === 'nullary'
+    typeof x === 'object' && x !== null && 'arity' in x && (x as AnyAction).arity === 'nullary'
   )
 }
 
