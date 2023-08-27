@@ -1,7 +1,7 @@
 import type { ChatCompletionMessage, CompletionCreateParams } from 'openai/resources/chat'
+import { zodToJsonSchema } from 'zod-to-json-schema'
 import type { Actions } from '~/core/action'
 import type { Workflow } from '~/core/workflow'
-import { zodToJsonSchema } from 'zod-to-json-schema'
 
 /**
  * Adapter to convert Lusat `Actions` into a list of OpenAI

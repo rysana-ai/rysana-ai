@@ -1,6 +1,6 @@
+import { zodToJsonSchema } from 'zod-to-json-schema'
 import type { AnyAction } from '~/core/action'
 import type { AnyApp } from '~/core/app'
-import { zodToJsonSchema } from 'zod-to-json-schema'
 import { mapEntries } from '~/shared/records'
 
 /** Used to serialize an `Action` into a JSON object. */
