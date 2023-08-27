@@ -206,7 +206,7 @@ function createUnaryAction<TIn, TOut, TMeta>(
   return {
     ...def,
     internalHandler: handler,
-    call: async (input) => {
+    call: async input => {
       // Parse the input if there is an input parser.
       // This should throw an error if the input is invalid,
       // allowing the action to be called safely with unknown input.

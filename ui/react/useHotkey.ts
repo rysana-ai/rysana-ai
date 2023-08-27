@@ -56,7 +56,7 @@ export function useHotkey(
 
     // TODO: Support multiple chords.
     const chord = chords[0] ?? []
-    const primary = chord.find((key) => !['cmd', 'ctrl', 'alt', 'shift'].includes(key))
+    const primary = chord.find(key => !['cmd', 'ctrl', 'alt', 'shift'].includes(key))
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (

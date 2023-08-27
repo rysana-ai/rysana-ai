@@ -11,6 +11,6 @@ export function parseChords(value: string) {
       // Split on spaces.
       .split(' ')
       // Split on plus signs, and lowercase each key.
-      .map((chord) => chord.split('+').map((key) => key.toLowerCase()))
+      .map(chord => chord.split('+').map(key => key.toLowerCase()))
   )
 }
