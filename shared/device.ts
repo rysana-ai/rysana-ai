@@ -4,9 +4,7 @@
  */
 export function getDevicePlatform() {
   if (typeof window !== 'undefined' && 'userAgentData' in navigator) {
-    const userAgentData = navigator.userAgentData as {
-      platform: string
-    }
+    const userAgentData = navigator.userAgentData as { platform: string }
     const platform = userAgentData.platform.toLowerCase()
     if (platform.includes('android')) return 'android'
     if (platform.includes('ios')) return 'ios'

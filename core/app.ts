@@ -16,7 +16,6 @@ export type AnyApp = App<Actions, Models, any>
 
 /**
  * Util to type-check a Lusat app.
- *
  * ```ts
  * app({
  *  actions: // ...,

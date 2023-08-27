@@ -20,9 +20,7 @@ export default defineConfig([
   {
     entry: ['ui/react/index.ts'],
     outDir: 'ui/react/dist',
-    banner: {
-      js: '"use client";',
-    },
+    banner: { js: '"use client";' },
     format: ['cjs', 'esm'],
     external: ['ui', 'adapters', 'server'],
     dts: true,

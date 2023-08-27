@@ -16,11 +16,7 @@ export async function run<
     for (const step of workflow) {
       let input = step.input as Record<string, unknown> | string | null
       const { action, saveAs } = step
-      if (
-        typeof input === 'string' &&
-        /^{{(.+)}}$/.test(input) &&
-        temp.has(input.slice(2, -2))
-      ) {
+      if (typeof input === 'string' && /^{{(.+)}}$/.test(input) && temp.has(input.slice(2, -2))) {
         input = temp.get(input)
       } else if (typeof input === 'object' && input !== null) {
         for (const [key, value] of Object.entries(input)) {

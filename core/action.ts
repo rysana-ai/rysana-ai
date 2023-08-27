@@ -9,8 +9,7 @@ type Parser<T> = ZodType<T>
 
 type ActionBase<TOut, TMeta> = {
   /**
-   * Optional name, overrides the key in the actions object when used for AI
-   * reasoning.
+   * Optional name, overrides the key in the actions object when used for AI reasoning.
    */
   name?: string
   /**
@@ -36,8 +35,7 @@ type NullaryAction<TOut, TMeta> = ActionBase<TOut, TMeta> & {
   arity: 'nullary'
   /**
    * The middleware functions to run before the action is executed. These can be
-   * used to perform any kind of pre-processing, such as logging, analytics,
-   * etc.
+   * used to perform any kind of pre-processing, such as logging, analytics, etc.
    */
   middlewares?: (() => MaybePromise<void>)[]
   /**
@@ -65,8 +63,7 @@ type UnaryAction<TIn, TOut, TMeta> = ActionBase<TOut, TMeta> & {
   arity: 'unary'
   /**
    * The middleware functions to run before the action is executed. These can be
-   * used to perform any kind of pre-processing, such as logging, analytics,
-   * etc.
+   * used to perform any kind of pre-processing, such as logging, analytics, etc.
    */
   middlewares?: ((input: TIn) => MaybePromise<TIn>)[]
   /**
@@ -114,9 +111,7 @@ type UnaryAction<TIn, TOut, TMeta> = ActionBase<TOut, TMeta> & {
  * input/output parsing via Zod schemas (or an equivalent parser library of your
  * choice).
  */
-export type Action<TIn, TOut, TMeta> =
-  | NullaryAction<TOut, TMeta>
-  | UnaryAction<TIn, TOut, TMeta>
+export type Action<TIn, TOut, TMeta> = NullaryAction<TOut, TMeta> | UnaryAction<TIn, TOut, TMeta>
 
 export type AnyAction = Action<any, any, any>
 
@@ -138,14 +133,10 @@ type NullaryActionBuilder<TOut, TMeta> = {
   middleware: (fun: () => void) => NullaryActionBuilder<TOut, TMeta>
 
   /** Add an input parser to the action. */
-  input: <TNewInput>(
-    inputParser: Parser<TNewInput>,
-  ) => UnaryActionBuilder<TNewInput, TOut, TMeta>
+  input: <TNewInput>(inputParser: Parser<TNewInput>) => UnaryActionBuilder<TNewInput, TOut, TMeta>
 
   /** Add an output parser to the action. */
-  output: <TNewOutput>(
-    outputParser: Parser<TNewOutput>,
-  ) => NullaryActionBuilder<TNewOutput, TMeta>
+  output: <TNewOutput>(outputParser: Parser<TNewOutput>) => NullaryActionBuilder<TNewOutput, TMeta>
 
   /**
    * Add a handler to the action.
@@ -233,10 +224,7 @@ function createUnaryBuilder<TIn, TOut, TMeta>(
       return createUnaryBuilder({ ...def, metadata })
     },
     middleware(fun) {
-      return createUnaryBuilder({
-        ...def,
-        middlewares: [...(def.middlewares ?? []), fun],
-      })
+      return createUnaryBuilder({ ...def, middlewares: [...(def.middlewares ?? []), fun] })
     },
     output(outputParser) {
       return createUnaryBuilder({ ...def, outputParser: outputParser })
@@ -259,10 +247,7 @@ function createNullaryBuilder<TOut, TMeta>(
       return createNullaryBuilder({ ...def, metadata })
     },
     middleware(fun) {
-      return createNullaryBuilder({
-        ...def,
-        middlewares: [...(def.middlewares ?? []), fun],
-      })
+      return createNullaryBuilder({ ...def, middlewares: [...(def.middlewares ?? []), fun] })
     },
     input<TNewInput>(inputParser: Parser<TNewInput>) {
       return createUnaryBuilder<TNewInput, TOut, TMeta>({
@@ -308,7 +293,6 @@ export function isNullaryAction(x: unknown): x is NullaryAction<unknown, unknown
 
 /**
  * Util to type-check a set of actions.
- *
  * ```ts
  * actions({
  *  createTodo: action()

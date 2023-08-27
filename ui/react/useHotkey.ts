@@ -17,7 +17,6 @@ export function useHotkey(
    * The hotkey(s) to listen for. This can be a single key, a combination of
    * keys separated by `+` to be triggered simultaneously, or even chords
    * separated by `then` to be triggered in sequence.
-   *
    * ```ts
    * 'a', 'cmd+k', 'alt+shift+c', 'g then i'
    * ```
@@ -61,9 +60,7 @@ export function useHotkey(
     const handleKeyDown = (e: KeyboardEvent) => {
       if (
         !_options.enableOnInputs &&
-        ['input', 'select', 'textarea'].includes(
-          (e.target as HTMLElement).tagName.toLowerCase(),
-        )
+        ['input', 'select', 'textarea'].includes((e.target as HTMLElement).tagName.toLowerCase())
       ) {
         return
       }
@@ -82,9 +79,7 @@ export function useHotkey(
       }
     }
 
-    window.addEventListener('keydown', handleKeyDown, {
-      capture: false,
-    })
+    window.addEventListener('keydown', handleKeyDown, { capture: false })
 
     return () => {
       window.removeEventListener('keydown', handleKeyDown)

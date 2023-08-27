@@ -8,7 +8,6 @@ import type { Workflow } from '~/core/workflow'
  * `CompletionCreateParams.Function` objects.
  *
  * Example:
- *
  * ```ts
  * import { z } from 'zod'
  * import { action } from 'lusat'
@@ -28,7 +27,6 @@ import type { Workflow } from '~/core/workflow'
  *   functions,
  * })
  * ```
- *
  * You can then call the function in your app from GPT returned function calls
  * in the completion with `callFunction` or `gptFunctionCallToWorkflow` from
  * `lusat/adapters/openai`, using the same `Actions` object and taking advantage
@@ -41,9 +39,7 @@ export function gptFunctions(actions: Actions): CompletionCreateParams.Function[
     parameters:
       action.arity === 'unary'
         ? Object.fromEntries(
-            Object.entries(zodToJsonSchema(action.inputParser)).filter(
-              ([k]) => k !== '$schema',
-            ),
+            Object.entries(zodToJsonSchema(action.inputParser)).filter(([k]) => k !== '$schema'),
           )
         : { type: 'object', properties: {}, required: [] },
   }))
@@ -53,14 +49,11 @@ export function gptFunctions(actions: Actions): CompletionCreateParams.Function[
  * Adapter to convert a GPT function call into a Lusat `Workflow`.
  *
  * Example:
- *
  * ```ts
  * const workflow = gptFunctionCallToWorkflow(gptFunctionCall, actions)
  * ```
- *
  * Now we've converted the function call to a Lusat `Workflow`, and we even get
  * the input parsed and validated before we run it.
- *
  * ```ts
  * // Run the workflow with your Lusat `App`:
  * run(myApp, workflow)
@@ -97,14 +90,12 @@ export function gptFunctionCallToWorkflow<TActions extends Actions>(
  * middlewares.
  *
  * Example:
- *
  * ```ts
  * const { result } = await callFunction(
  *   gptFunctionCall, // From OpenAI API.
  *   actions, // From a Lusat `App` or `Actions`.
  * )
  * ```
- *
  * Note that this direct call does not handle things like danger handling and
  * automatically request user authorization for actions that require it. For
  * that, use `gptFunctionCallToWorkflow` from `lusat/adapters/openai` and run

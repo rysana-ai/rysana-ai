@@ -2,17 +2,13 @@ import { Actions } from '~/core/action'
 import { Workflow } from '~/core/workflow'
 
 /** An example user prompt and workflow, used for testing and reasoning. */
-export type Example<T extends Actions> = {
-  prompt: string
-  workflow: Workflow<T>
-}
+export type Example<T extends Actions> = { prompt: string; workflow: Workflow<T> }
 
 /** A set of examples, used for testing and reasoning. */
 export type Examples<T extends Actions> = Record<string, Example<T>>
 
 /**
  * Util to type-check a set of examples.
- *
  * ```ts
  * examples({
  *   createTodo: {
