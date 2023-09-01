@@ -1,6 +1,6 @@
 {
   "name": "lusat",
-  "version": "0.0.28",
+  "version": "0.0.29",
   "description": "The Lusat TS library",
   "homepage": "https://rysana.com/docs/lusat",
   "repository": {
@@ -15,6 +15,12 @@
       "import": "./dist/index.mjs",
       "module": "./dist/index.mjs",
       "require": "./dist/index.js"
+    },
+    "./ai": {
+      "types": "./ai/dist/index.d.ts",
+      "import": "./ai/dist/index.mjs",
+      "module": "./ai/dist/index.mjs",
+      "require": "./ai/dist/index.js"
     },
     "./server": {
       "types": "./server/dist/index.d.ts",
@@ -40,6 +46,7 @@
   "types": "./dist/index.d.ts",
   "files": [
     "dist/**/*",
+    "ai/dist/**/*",
     "server/dist/**/*",
     "ui/react/dist/**/*",
     "adapters/openai/dist/**/*",
@@ -67,6 +74,8 @@
     "react": "^18.2.0"
   },
   "peerDependenciesMeta": {
-    "react": { "optional": true }
+    "react": {
+      "optional": true
+    }
   }
 }

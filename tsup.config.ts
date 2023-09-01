@@ -5,7 +5,15 @@ export default defineConfig([
   {
     entry: ['core/index.ts'],
     format: ['cjs', 'esm'],
-    external: ['ui', 'adapters', 'server'],
+    external: ['ai', 'ui', 'adapters', 'server'],
+    dts: true,
+  },
+  // API SDK
+  {
+    entry: ['ai/index.ts'],
+    outDir: 'ai/dist',
+    format: ['cjs', 'esm'],
+    external: ['ai', 'ui', 'adapters', 'server'],
     dts: true,
   },
   // Server library
@@ -13,7 +21,7 @@ export default defineConfig([
     entry: ['server/index.ts'],
     outDir: 'server/dist',
     format: ['cjs', 'esm'],
-    external: ['ui', 'adapters', 'server'],
+    external: ['ai', 'ui', 'adapters', 'server'],
     dts: true,
   },
   // React library
@@ -22,7 +30,7 @@ export default defineConfig([
     outDir: 'ui/react/dist',
     banner: { js: '"use client";' },
     format: ['cjs', 'esm'],
-    external: ['ui', 'adapters', 'server'],
+    external: ['ai', 'ui', 'adapters', 'server'],
     dts: true,
   },
   // Third-party adapters
@@ -30,7 +38,7 @@ export default defineConfig([
     entry: ['adapters/openai/index.ts'],
     outDir: 'adapters/openai/dist',
     format: ['cjs', 'esm'],
-    external: ['ui', 'adapters', 'server'],
+    external: ['ai', 'ui', 'adapters', 'server'],
     dts: true,
   },
 ])

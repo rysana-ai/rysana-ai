@@ -30,6 +30,7 @@
     "node_modules",
     "build",
     "dist",
+    "ai/dist",
     "server/dist",
     "ui/react/dist",
     "adapters/openai/dist"
