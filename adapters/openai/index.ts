@@ -1,11 +1,10 @@
-import type { ChatCompletionMessage, CompletionCreateParams } from 'openai/resources/chat'
+import type { Completions } from 'openai/resources/chat'
 import { zodToJsonSchema } from 'zod-to-json-schema'
 import type { Actions } from '~/core/action'
 import type { Workflow } from '~/core/workflow'
 
 /**
- * Adapter to convert Lusat `Actions` into a list of OpenAI
- * `CompletionCreateParams.Function` objects.
+ * Adapter to convert Lusat `Actions` into a list of OpenAI `Function` objects.
  *
  * Example:
  * ```ts
@@ -32,7 +31,7 @@ import type { Workflow } from '~/core/workflow'
  * `lusat/adapters/openai`, using the same `Actions` object and taking advantage
  * of the parsing and validation defined in your input schema.
  */
-export function gptFunctions(actions: Actions): CompletionCreateParams.Function[] {
+export function gptFunctions(actions: Actions): Completions.ChatCompletionCreateParams.Function[] {
   return Object.entries(actions).map(([name, action]) => ({
     name: action.name ?? name,
     description: action.description,
@@ -64,7 +63,7 @@ export function gptFunctions(actions: Actions): CompletionCreateParams.Function[
  * ```
  */
 export function gptFunctionCallToWorkflow<TActions extends Actions>(
-  gptFunctionCall: ChatCompletionMessage.FunctionCall,
+  gptFunctionCall: Completions.ChatCompletionMessage.FunctionCall,
   actions: TActions,
 ): Workflow<TActions> {
   if (!gptFunctionCall.name) {
@@ -102,7 +101,7 @@ export function gptFunctionCallToWorkflow<TActions extends Actions>(
  * the workflow with your Lusat `App`.
  */
 export async function callFunction<TActions extends Actions>(
-  gptFunctionCall: ChatCompletionMessage.FunctionCall,
+  gptFunctionCall: Completions.ChatCompletionMessage.FunctionCall,
   actions: TActions,
 ) {
   if (!gptFunctionCall.name) {
